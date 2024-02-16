@@ -1,4 +1,4 @@
-from main.lab import agent_executor
+from lab import agent_executor
 
 """
 This file will contain some sample code that invokes the agent with two different tasks.

@@ -1,8 +1,11 @@
 import os
+from dotenv import load_dotenv
 
 from langchain.agents import initialize_agent, AgentType
 from langchain_community.llms.huggingface_endpoint import HuggingFaceEndpoint
 from langchain_core.tools import Tool
+
+load_dotenv()
 
 """
 All requests to the LLM require some form of a key.
@@ -18,6 +21,7 @@ https://python.langchain.com/docs/modules/agents/
 
 llm = HuggingFaceEndpoint(
     endpoint_url=os.environ['LLM_ENDPOINT'],
+    huggingfacehub_api_token=os.environ['HF_TOKEN'],
     task="text2text-generation",
     model_kwargs={
         "max_new_tokens": 200
@@ -46,11 +50,15 @@ Here, we are defining the tools that the agent will have access to.
 # TODO: finish defining the second tool that the agent will have access to (get_word_length)
 tools = [
     Tool.from_function(
+        func=get_word_length,
+        name="get_word_length",
+        description="finds the length of a word",
+    ),
+    Tool.from_function(
         func=get_cube_of_number,
         name="get_cube_of_number",
         description="finds the cube of a number",
-    ),
-    # TODO
+    )
 ]
 
 """
